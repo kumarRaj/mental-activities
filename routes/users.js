@@ -12,4 +12,9 @@ router.post('/register', function(req, res, next) {
    userService.register(req, res)
 });
 
+/* Login user */
+router.post('/login', function(req, res, next) {
+   userService.login(req, res)
+});
+
 module.exports = router;
