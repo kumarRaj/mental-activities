@@ -23,7 +23,6 @@ exports.markCompleted = async (activityId, userId) => {
 };
 
 exports.getCompletedActivities = async (userId) => {
-    console.log(userActivityMap)
     if (!userActivityMap.has(userId)) {
         return []; // No completed activities for the user
     }
@@ -31,6 +30,5 @@ exports.getCompletedActivities = async (userId) => {
     // Retrieve completed activities for the user
     const completedActivityIds = Array.from(userActivityMap.get(userId));
     const completedActivities = activities.filter(activity => completedActivityIds.includes(activity.id));
-    console.log("completedActivities", completedActivityIds)
     return completedActivities;
 };
