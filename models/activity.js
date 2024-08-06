@@ -1,5 +1,6 @@
 module.exports = class Activity {
-    constructor(title, description, category, duration, difficultyLevel, activityContent) {
+    constructor(id, title, description, category, duration, difficultyLevel, activityContent) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.category = category;
