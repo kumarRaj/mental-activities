@@ -9,7 +9,7 @@ router.get('/', async function(req, res, next) {
 });
 
 router.post('/complete/:activityId', async function(req, res, next) {
-    const activityId = req.params.activityId;
+    const activityId = parseInt(req.params.activityId);
     const userId = getUserId(req.headers);
     try {
         await activityService.markCompleted(activityId, userId);
@@ -17,13 +17,26 @@ router.post('/complete/:activityId', async function(req, res, next) {
     }
     catch (error) {
         console.error(error);
-        res.sendStatus(400); // Sends a response with status code 400 (Bad Request)
+        res.sendStatus(400);
     }
 });
 
+router.get('/completed', async function(req, res, next) {
+    const userId = getUserId(req.headers);
+
+    try {
+        const completedActivities = await activityService.getCompletedActivities(userId);
+        res.status(200).json({ completedActivities });
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ error: error.message || 'An error occurred while retrieving completed activities' });
+    }
+});
+
+
 const getUserId = (headers) => {
     // TODO: Fix when introducing authentication
-    return headers['x-user-id']; // Access userId from headers
+    return headers['x-user-id'];
 };
 
 module.exports = router;
