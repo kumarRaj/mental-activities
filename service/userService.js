@@ -9,7 +9,6 @@ exports.authenticateUser = async (username, password) => {
     const validUser = users.find(
         (user) => user.username === username && user.password === password
     );
-//    console.log(validUser)
 
     if (validUser) {
         return { success: true, user: validUser };
