@@ -23,8 +23,20 @@ router.post('/register', function(req, res, next) {
 });
 
 /* Login user */
-router.post('/login', function(req, res, next) {
-   userService.login(req, res)
+router.post('/login', async function(req, res, next) {
+    const { username, password } = req.body;
+    try {
+        const result = await userService.authenticateUser(username, password);
+        console.log(result)
+        if (result.success) {
+            res.status(200).json(result.user);
+        } else {
+            res.status(401).json({ error: result.error });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ error: 'Login failed' });
+    }
 });
 
 module.exports = router;
