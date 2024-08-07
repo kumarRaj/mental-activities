@@ -10,14 +10,12 @@ router.get('/', function(req, res, next) {
 
 
 /* Register new user */
-router.post('/register', function(req, res, next) {
+router.post('/register', async function(req, res, next) {
     const { username, email, password } = req.body;
     try {
-        let user = new User(username, email, password)
-        userService.register(user)
+        const user = await userService.register(username, email, password)
         res.status(201).json({ user });
     } catch (error) {
-    console.log(error)
       res.status(400).json({ error: 'Registration failed' });
     }
 });
@@ -27,9 +25,8 @@ router.post('/login', async function(req, res, next) {
     const { username, password } = req.body;
     try {
         const result = await userService.authenticateUser(username, password);
-        console.log(result)
         if (result.success) {
-            res.status(200).json(result.user);
+            res.status(200).json(result);
         } else {
             res.status(401).json({ error: result.error });
         }
