@@ -1,5 +1,5 @@
 const users = []
-const auth = require('./authService.js');
+const auth = require('../authorisation/authService.js');
 var User = require('../models/user.js');
 
 exports.register = async (username, email, password) => {
