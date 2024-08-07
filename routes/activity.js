@@ -1,6 +1,7 @@
-var express = require('express');
-var router = express.Router();
-var activityService = require('../service/activityService.js')
+const express = require('express');
+const router = express.Router();
+const activityService = require('../service/activityService.js')
+const authMiddleware = require('../authorisation/authMiddleware');
 
 // TODO: Consolidate error handling
 /* Return all activities */
@@ -21,9 +22,9 @@ router.post('/', async function(req, res, next) {
     }
 });
 
-router.post('/complete/:activityId', async function(req, res, next) {
+router.post('/complete/:activityId', authMiddleware.authenticate, async function(req, res, next) {
     const activityId = parseInt(req.params.activityId);
-    const userId = getUserId(req.headers);
+    const userId = getUserId(req);
     try {
         await activityService.markCompleted(activityId, userId);
         res.sendStatus(200);
@@ -34,8 +35,8 @@ router.post('/complete/:activityId', async function(req, res, next) {
     }
 });
 
-router.get('/completed', async function(req, res, next) {
-    const userId = getUserId(req.headers);
+router.get('/completed', authMiddleware.authenticate, async function(req, res, next) {
+    const userId = getUserId(req);
 
     try {
         const completedActivities = await activityService.getCompletedActivities(userId);
@@ -47,9 +48,8 @@ router.get('/completed', async function(req, res, next) {
 });
 
 
-const getUserId = (headers) => {
-    // TODO: Fix when introducing authentication
-    return headers['x-user-id'];
+const getUserId = (req) => {
+    return req.userId;
 };
 
 module.exports = router;
