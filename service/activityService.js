@@ -12,25 +12,24 @@ exports.listActivities = async () => {
     return mongoActivities.map(activityMapper.mapMongoToDomainActivity);
 };
 
-exports.createActivity = async (title, description, category, duration, difficultyLevel, content) => {
-    if (!title || !description || !category || !duration || !difficultyLevel || !content) {
+exports.createActivity = async (title, description, category, duration, difficultyLevel, activityContent) => {
+    if (!title || !description || !category || !duration || !difficultyLevel || !activityContent) {
         throw new Error('All fields are required');
     }
 
-    const newActivity = {
-        id: nextId++,
+    const newActivity = new ActivityModel({
         title,
         description,
         category,
         duration,
         difficultyLevel,
-        content,
+        activityContent,
         creationTimestamp: new Date()
-    };
+      });
 
-    activities.push(newActivity);
+      const savedActivity = await newActivity.save();
 
-    return newActivity;
+      return savedActivity;
 };
 
 

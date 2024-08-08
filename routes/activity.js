@@ -11,11 +11,11 @@ router.get('/', async function(req, res, next) {
 });
 
 router.post('/', async function(req, res, next) {
-    const { title, description, category, duration, difficultyLevel, content } = req.body;
+    const { title, description, category, duration, difficultyLevel, activityContent } = req.body;
 
     try {
-        const newActivity = await activityService.createActivity(title, description, category, duration, difficultyLevel, content);
-        res.status(201).json({ newActivity });
+        const activity = await activityService.createActivity(title, description, category, duration, difficultyLevel, activityContent);
+        res.status(201).json({ activity });
     } catch (error) {
         console.error(error);
         res.status(400).json({ error: error.message || 'An error occurred while creating the activity' });
