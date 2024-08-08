@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository provides a backend implementation for managing activities. It includes functionalities for creating and retrieving activities, with data persistence managed through MongoDB and Mongoose. 
+This repository provides a backend implementation for managing mental well being activities. 
 
 ## Getting Started
 
@@ -41,3 +41,12 @@ Start the server:
 npm start
 ```
 The application will now be running, and you can access it on http://localhost:3000 
+
+### Supported Features
+
+1. Create and persist users
+2. List all activities.
+3. JWT for authentication of users
+4. Mark activities as completed
+5. See a user's completed activities
+6. Have an unauthenticated endpoint for adding new activities

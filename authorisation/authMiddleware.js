@@ -9,7 +9,7 @@ exports.authenticate = (req, res, next) => {
 
     try {
         const decoded = auth.verifyToken(token);
-        req.userId = decoded.id; // Attach user ID to request object
+        req.userId = decoded.id;
         next();
     } catch (error) {
         res.status(401).json({ error: 'Invalid token' });

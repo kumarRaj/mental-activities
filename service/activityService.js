@@ -5,7 +5,6 @@ const activityMapper = require('../models/mapper/activityMapper.js');
 
 
 activities = generateFixedActivities();
-let nextId = activities.length ? Math.max(...activities.map(a => a.id)) + 1 : 1; // Generate the next ID
 
 exports.listActivities = async () => {
     const mongoActivities = await ActivityModel.find();
@@ -49,7 +48,6 @@ exports.markCompleted = async (activityId, userId) => {
       });
     }
 
-    // Add the activity to the completed list if it's not already there
     if (!userActivity.completedActivities.includes(activityId)) {
       userActivity.completedActivities.push(activityId);
       await userActivity.save();
@@ -63,10 +61,8 @@ exports.getCompletedActivities = async (userId) => {
       return [];
     }
 
-    // Get the list of completed activity IDs
     const completedActivityIds = userActivity.completedActivities;
 
-    // Fetch the details of these activities from the database
     const completedActivities = await ActivityModel.find({
       _id: { $in: completedActivityIds },
     });

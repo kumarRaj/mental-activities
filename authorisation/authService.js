@@ -3,7 +3,6 @@ const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');
 dotenv.config();
 
-// Replace with your own secret key
 const JWT_SECRET = process.env.TOKEN_SECRET;;
 
 exports.generateToken = (userId) => {
