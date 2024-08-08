@@ -50,3 +50,10 @@ The application will now be running, and you can access it on http://localhost:3
 4. Mark activities as completed
 5. See a user's completed activities
 6. Have an unauthenticated endpoint for adding new activities
+
+
+### Pending Features
+
+1. Unit tests - Need to be added. I haven't added them as I was working on nodejs and express after a long time and was going through a learning curve
+2. CRUD endpoints, are simple enough and can be added later
+3. Add docker compose 
