@@ -56,4 +56,4 @@ The application will now be running, and you can access it on http://localhost:3
 
 1. Unit tests - Need to be added. I haven't added them as I was working on nodejs and express after a long time and was going through a learning curve
 2. CRUD endpoints, are simple enough and can be added later
-3. Add docker compose 
+3. Add docker and docker compose 
