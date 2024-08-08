@@ -5,8 +5,7 @@ const User = require('../user');
 const toDomain = (mongoUser) => {
   return new User(
     mongoUser.username,
-    mongoUser.email,
-    mongoUser.password
+    mongoUser.email
   );
 };
 
