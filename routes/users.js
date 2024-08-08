@@ -17,7 +17,8 @@ router.post('/register', async function(req, res, next) {
         // TODO: stop returning password here
         res.status(201).json({ user });
     } catch (error) {
-      res.status(400).json({ error: 'Registration failed' });
+        console.log(error)
+        res.status(400).json({ error: 'Registration failed' });
     }
 });
 
