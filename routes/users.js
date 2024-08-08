@@ -14,7 +14,6 @@ router.post('/register', async function(req, res, next) {
     const { username, email, password } = req.body;
     try {
         const user = await userService.register(username, email, password)
-        // TODO: stop returning password here
         res.status(201).json({ user });
     } catch (error) {
         console.log(error)
