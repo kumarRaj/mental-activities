@@ -1,11 +1,15 @@
-const Activity = require('../models/activity.js');
 const { generateFixedActivities } = require('./defaultActivities.js');
+const UserActivityModel = require('../models/mongoose/userActivitySchema.js');
+const ActivityModel = require('../models/mongoose/activitySchema.js');
+const activityMapper = require('../models/mapper/activityMapper.js');
+
+
 activities = generateFixedActivities();
 let nextId = activities.length ? Math.max(...activities.map(a => a.id)) + 1 : 1; // Generate the next ID
-const userActivityMap = new Map();
 
 exports.listActivities = async () => {
-    return activities;
+    const mongoActivities = await ActivityModel.find();
+    return mongoActivities.map(activityMapper.mapMongoToDomainActivity);
 };
 
 exports.createActivity = async (title, description, category, duration, difficultyLevel, content) => {
@@ -32,26 +36,41 @@ exports.createActivity = async (title, description, category, duration, difficul
 
 exports.markCompleted = async (activityId, userId) => {
 
-    const activityExists = activities.some(activity => activity.id === parseInt(activityId, 10));
+    const activityExists = await ActivityModel.exists({ _id: activityId });
     if (!activityExists) {
-        throw new Error('Activity not found');
+      throw new Error('Activity not found');
     }
 
-    // Initialize user entry if it doesn't exist
-    if (!userActivityMap[userId]) {
-        userActivityMap.set(userId, new Set());
+    let userActivity = await UserActivityModel.findOne({ userId });
+
+    if (!userActivity) {
+      userActivity = new UserActivityModel({
+        userId,
+        completedActivities: [],
+      });
     }
-    const completedActivities = userActivityMap.get(userId);
-    completedActivities.add(activityId);
+
+    // Add the activity to the completed list if it's not already there
+    if (!userActivity.completedActivities.includes(activityId)) {
+      userActivity.completedActivities.push(activityId);
+      await userActivity.save();
+    }
 };
 
 exports.getCompletedActivities = async (userId) => {
-    if (!userActivityMap.has(userId)) {
-        return [];
+    const userActivity = await UserActivityModel.findOne({ userId });
+
+    if (!userActivity || userActivity.completedActivities.length === 0) {
+      return [];
     }
 
+    // Get the list of completed activity IDs
+    const completedActivityIds = userActivity.completedActivities;
 
-    const completedActivityIds = Array.from(userActivityMap.get(userId));
-    const completedActivities = activities.filter(activity => completedActivityIds.includes(activity.id));
+    // Fetch the details of these activities from the database
+    const completedActivities = await ActivityModel.find({
+      _id: { $in: completedActivityIds },
+    });
+
     return completedActivities;
 };

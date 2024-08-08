@@ -1,6 +1,7 @@
 const Activity = require('../models/activity.js');
+const ActivityModel = require('../models/mongoose/activitySchema.js');
 
-exports.generateFixedActivities = function() {
+exports.generateFixedActivities = async function() {
     const activities = [
         new Activity(
             1,
@@ -48,6 +49,16 @@ exports.generateFixedActivities = function() {
             "Bring a dish and join our community potluck to meet new people and foster social connections."
         )
     ];
-
+    for (const activityData of activities) {
+        const existingActivity = await ActivityModel.findOne({ title: activityData.title });
+  
+        if (!existingActivity) {
+          const newActivity = new ActivityModel(activityData);
+          await newActivity.save();
+          console.log(`Activity "${activityData.title}" saved to database.`);
+        } else {
+          console.log(`Activity "${activityData.title}" already exists in the database.`);
+        }
+      }
     return activities;
 }
