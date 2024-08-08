@@ -72,5 +72,5 @@ exports.getCompletedActivities = async (userId) => {
       _id: { $in: completedActivityIds },
     });
 
-    return completedActivities;
+    return completedActivities.map(activityMapper.mapMongoToDomainActivity);
 };

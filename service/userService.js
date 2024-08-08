@@ -1,4 +1,3 @@
-const users = []
 const auth = require('../authorisation/authService.js');
 const User = require('../models/user.js');
 const userMapper = require('../models/mapper/userMapper.js');
@@ -25,6 +24,6 @@ exports.authenticateUser = async (username, password) => {
         return { success: false, error: 'Unauthorized' };
     }
 
-    const token = auth.generateToken(username);
+    const token = auth.generateToken(user._id);
     return { success: true, token: token };
  };

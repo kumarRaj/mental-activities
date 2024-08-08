@@ -23,7 +23,7 @@ router.post('/', async function(req, res, next) {
 });
 
 router.post('/complete/:activityId', authMiddleware.authenticate, async function(req, res, next) {
-    const activityId = parseInt(req.params.activityId);
+    const activityId = req.params.activityId;
     const userId = getUserId(req);
     try {
         await activityService.markCompleted(activityId, userId);
