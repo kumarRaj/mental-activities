@@ -16,8 +16,7 @@ This repository provides a backend implementation for managing activities. It in
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/your-username/activity-management.git
-   cd activity-management
+   cd mental-activities
     ```
 2. **Install Dependencies**
 
@@ -26,20 +25,19 @@ This repository provides a backend implementation for managing activities. It in
    ```bash
    npm install
    ```
+3. **Set Up Environment Variables**
 
-3. **Set Up Environment Variables
-
-Create a `.env` file in the root directory and add your MongoDB connection string:
+Modify the `.env` file in the root directory and add your MongoDB connection string:
 
 ```plaintext
 MONGO_URI=mongodb://localhost:27017/activity_db
 ```
 
-4. ### Run the Application
+4. **Run the Application**
 
 Start the server:
 
 ```bash
 npm start
 ```
-The application will now be running, and you can access it on http://localhost:3000 (or the port specified in your configuration).
+The application will now be running, and you can access it on http://localhost:3000 
